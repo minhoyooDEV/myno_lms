@@ -16,6 +16,9 @@ export default function Home() {
 						<Link href="/members/register">register</Link>
 					</li>
 					<li>
+						<Link href="/courses">courses</Link>
+					</li>
+					<li>
 						<Link href="/courses/1">course id 1</Link>
 					</li>
 				</ul>

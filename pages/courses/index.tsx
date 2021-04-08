@@ -15,7 +15,7 @@ const Ul = styled.ul`
 	grid-template-columns: 1fr 1fr;
 	${mediaquery.md`
 		grid-template-columns: 1fr 1fr 1fr;
-`}
+	`}
 `;
 
 const Courses = ({ data }: CoursesProp) => {

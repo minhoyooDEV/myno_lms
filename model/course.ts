@@ -4,5 +4,11 @@ interface Course {
 	description: string;
 	thumbnailURL: string;
 }
+interface CourseContents {
+	id: number;
+	courseId: number;
+	body: string;
+	order: number;
+}
 
-export type { Course };
+export type { Course, CourseContents };

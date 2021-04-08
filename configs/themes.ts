@@ -1,9 +1,9 @@
-// default-theme.ts
-import { DefaultTheme } from 'styled-components';
+// themes.ts
+import { BasicTheme } from 'styled-components';
 
-const basicTheme: DefaultTheme = {
-	borderRadius: '5px',
-
+const basicTheme: BasicTheme = {
+	borderRadius: '0.5rem',
+	spacing: '0.5rem',
 	colors: {
 		main: 'cyan',
 		secondary: 'magenta',

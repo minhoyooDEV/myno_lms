@@ -15,6 +15,9 @@ declare module 'styled-components' {
 			laptop: 1024;
 			tesktop: 2560;
 		};
+		zIndex: {
+			header: 1000;
+		};
 		colors: {
 			main: string;
 			secondary: string;
@@ -24,6 +27,8 @@ declare module 'styled-components' {
 			black: string;
 			grey: string;
 			greyLight: string;
+
+			bodyBackground: string;
 		};
 	}
 }

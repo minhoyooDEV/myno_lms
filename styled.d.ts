@@ -7,6 +7,8 @@ declare module 'styled-components' {
 		borderRadius: string;
 		spacing: string;
 		contentsMaxWith: string;
+
+		headerHeight: string;
 		sizes: {
 			mobile: 320;
 			tablet: 768;
@@ -16,6 +18,12 @@ declare module 'styled-components' {
 		colors: {
 			main: string;
 			secondary: string;
+			warning: string;
+
+			white: string;
+			black: string;
+			grey: string;
+			greyLight: string;
 		};
 	}
 }

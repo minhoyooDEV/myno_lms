@@ -6,6 +6,7 @@ declare module 'styled-components' {
 	export interface DefaultTheme extends BasicTheme {
 		borderRadius: string;
 		spacing: string;
+		contentsMaxWith: string;
 		sizes: {
 			mobile: 320;
 			tablet: 768;

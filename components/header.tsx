@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import mediaquery from '../utiles/mediaquery';
 import { Container } from './base/container';
 
 const HeaderWrap = styled.header`

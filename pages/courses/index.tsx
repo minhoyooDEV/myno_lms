@@ -1,7 +1,7 @@
 // courses/index.tsx
 import { NextPageContext } from 'next';
 import styled from 'styled-components';
-import { Container } from '../../components/container';
+import { Container } from '../../components/base/container';
 import CourseListItem from '../../components/course/course-list-item';
 import { Course } from '../../model/course';
 import mediaquery from '../../utiles/mediaquery';

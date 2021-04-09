@@ -1,5 +1,5 @@
 // themes.ts
-import { BasicTheme } from 'styled-components';
+import { DefaultTheme as BasicTheme } from 'styled-components';
 
 const defaultSpacing = '0.5rem';
 
@@ -8,6 +8,12 @@ const basicTheme: BasicTheme = {
 	spacing: defaultSpacing,
 	contentsMaxWith: '1920px',
 
+	sizes: {
+		mobile: 320,
+		tablet: 768,
+		laptop: 1024,
+		tesktop: 2560,
+	},
 	headerHeight: `3rem`,
 	zIndex: {
 		header: 1000,

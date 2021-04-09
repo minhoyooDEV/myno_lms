@@ -10,10 +10,10 @@ declare module 'styled-components' {
 
 		headerHeight: string;
 		sizes: {
-			mobile: 320;
-			tablet: 768;
-			laptop: 1024;
-			tesktop: 2560;
+			mobile: number;
+			tablet: number;
+			laptop: number;
+			tesktop: number;
 		};
 		zIndex: {
 			header: 1000;

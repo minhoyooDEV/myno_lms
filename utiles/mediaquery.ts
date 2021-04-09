@@ -21,8 +21,9 @@ const size = {
 // https://codesandbox.io/embed/dry-media-queries-styled-components-typescript-8dwwu
 
 const mediaquery = (Object.keys(size) as Array<keyof typeof size>).reduce((acc, key) => {
-	acc[key] = (style: String) => `@media (min-width: ${size[key]}) { ${style} }`;
+	acc[key] = (style: string) => `@media (min-width: ${size[key]}) { ${style} }`;
 	return acc;
+	// eslint-disable-next-line @typescript-eslint/ban-types
 }, {} as { [index: string]: Function });
 
 export default mediaquery;

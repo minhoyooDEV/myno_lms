@@ -11,29 +11,42 @@ import { CourseDetailContainer } from '../../components/course/course-detail-con
 import LessonList from '../../components/course/course-lesson-list';
 import LessonListItem from '../../components/course/course-lesson-list-item';
 import { Course, CourseContents } from '../../model/course';
+import { Comments } from '../../model/comments';
+import { useStore } from '../../stores';
+import { Col, Row } from '../../components/base/grid';
+import { Observer } from 'mobx-react-lite';
 
 interface CoursePageProp {
 	courseStore: {
 		course: Course;
-		courseContents: CourseContents[];
+		contentsList: CourseContents[];
+		commentsList: Comments[];
 	};
 }
 
 const LessonContents = styled.article`
 	flex: 1;
+	overflow-y: scroll;
 `;
 
 function CoursePage({ courseStore }: CoursePageProp) {
 	// const router = useRouter();
 
+	const { commentsStore } = useStore();
+
 	if (!courseStore) {
 		return <div></div>;
 	}
 
-	const { course, courseContents } = courseStore;
+	const { commentsListByContentsId } = commentsStore;
+	const { course, contentsList } = courseStore;
+	const commentsList = commentsListByContentsId.get(course.id);
 
 	const [contentsIndex, setContentsIndex] = useState(0);
-
+	const [comments, setComments] = useState('');
+	const onSubmit = () => {
+		commentsStore.createCommentsByContentsId(course.id, comments);
+	};
 	const handleListItem = (idx: number) => {
 		setContentsIndex(idx);
 	};
@@ -41,7 +54,7 @@ function CoursePage({ courseStore }: CoursePageProp) {
 		<CourseDetailContainer>
 			<div style={{ width: 200 }}>
 				<LessonList>
-					{courseContents.map(({ id }, idx) => (
+					{contentsList.map(({ id }, idx) => (
 						<LessonListItem key={id} onClick={() => handleListItem(idx)}>
 							<a>
 								<div>Lesson #{id}</div>
@@ -54,8 +67,31 @@ function CoursePage({ courseStore }: CoursePageProp) {
 				<div>{course.title}</div>
 				<div>Lesson: #{contentsIndex + 1}</div>
 				<div>
-					<ReactMarkdown children={courseContents[contentsIndex]?.body || ''} />
+					<ReactMarkdown children={contentsList[contentsIndex]?.body || ''} />
 				</div>
+				<div>
+					<input value={comments} onChange={e => setComments(e.target.value)} />
+					<button onClick={onSubmit}>제출</button>
+				</div>
+				<ul>
+					<Observer>
+						{() => (
+							<>
+								{commentsList?.map(({ id, body, createdAt, userId }) => (
+									<li key={id}>
+										<Row>
+											<Col>
+												<div>{userId}</div>
+												<div>생성일: {createdAt}</div>
+											</Col>
+											<Col>{body}</Col>
+										</Row>
+									</li>
+								))}
+							</>
+						)}
+					</Observer>
+				</ul>
 			</LessonContents>
 		</CourseDetailContainer>
 	);
@@ -79,9 +115,24 @@ export const getServerSideProps = withSession(async ({ res, req, params }) => {
 		fetch(`${process.env.API_HOST}/courses/${params.id}/contents`, {
 			headers: { Authorization: accessToken },
 		}),
+		fetch(`${process.env.API_HOST}/contents/${params.id}/comments`, {
+			headers: { Authorization: accessToken },
+		}),
 	]);
 
-	const [course, courseContents] = await Promise.all(responses.map(res => res.json()));
+	const [course, contentsList, commentsList] = await Promise.all(responses.map(res => res.json()));
 
-	return { props: { courseStore: { course, courseContents } } };
+	console.log(commentsList);
+	return {
+		props: {
+			courseStore: {
+				course,
+				contentsList,
+				commentsList: commentsList.sort((a, b) => b.id - a.id),
+			},
+			commentsStore: {
+				contentsIdWithCommentsList: [course.id, commentsList],
+			},
+		},
+	};
 });

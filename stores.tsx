@@ -2,11 +2,16 @@ import React, { useMemo } from 'react';
 import { createCourseStore, TCourseStoreState } from './model/course';
 import { enableStaticRendering } from 'mobx-react';
 import { createAuthStore, TAuthStoreState } from './model/auth';
+import { configure } from 'mobx';
 // https://github.com/vercel/next.js/blob/canary/examples/with-mobx/store.js
 
 const isServer = typeof window === 'undefined';
 // ssr issuese
 enableStaticRendering(isServer);
+
+configure({
+	useProxies: 'never',
+});
 
 type initializeStoreProps = {
 	courseStore: TCourseStoreState;

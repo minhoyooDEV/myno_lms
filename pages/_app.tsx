@@ -11,6 +11,7 @@ function App({ Component, pageProps }: AppProps) {
 	console.log('@@@@ APP @@@@@');
 	console.log({ pageProps });
 	const initialProp = {
+		authStore: pageProps.authStore,
 		courseStore: pageProps.courseStore,
 	};
 	const store = useInitializeStore(initialProp);

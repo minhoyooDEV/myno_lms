@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { createCourseStore, TCourseStoreState } from './model/course';
 import { enableStaticRendering } from 'mobx-react';
+import { createAuthStore, TAuthStoreState } from './model/auth';
 // https://github.com/vercel/next.js/blob/canary/examples/with-mobx/store.js
 
 const isServer = typeof window === 'undefined';
@@ -9,10 +10,12 @@ enableStaticRendering(isServer);
 
 type initializeStoreProps = {
 	courseStore: TCourseStoreState;
+	authStore: TAuthStoreState;
 };
 
 const makeStore = () => ({
 	courseStore: createCourseStore(),
+	authStore: createAuthStore(),
 });
 
 type TStore = ReturnType<typeof makeStore>;
@@ -26,6 +29,7 @@ function initializeStore(initialData: initializeStoreProps) {
 	// get hydrated here, check `pages/ssg.js` and `pages/ssr.js` for more details
 	if (initialData) {
 		_store.courseStore.hydrate(initialData.courseStore);
+		_store.authStore.hydrate(initialData.authStore);
 	}
 	// For SSG and SSR always create a new store
 	if (typeof window === 'undefined') return _store;

@@ -63,5 +63,6 @@ CoursePage.getInitialProps = async () => {
 		course: CourseMockResponse,
 		courseContents: CourseContentsMockResponse.sort((a, b) => a.order - b.order),
 	};
+
 	return { data };
 };

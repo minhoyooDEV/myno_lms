@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import styled from 'styled-components';
 import { Container } from './base/container';
 
@@ -14,6 +15,7 @@ const HeaderWrap = styled.header`
 const HeaderContainer = styled(Container)`
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
 	background-color: inherit;
 	color: ${({ theme }) => theme.colors.white};
 `;
@@ -25,7 +27,11 @@ const Header = ({}: HeaderProps) => {
 			<HeaderContainer>
 				{/* left */}
 				<div>
-					<b>LOGO</b>
+					<Link href="/">
+						<a>
+							<b>HOME</b>
+						</a>
+					</Link>
 				</div>
 
 				{/* right */}

@@ -1,7 +1,15 @@
 import Head from 'next/head';
 import Link from 'next/link';
 
+import { useRouter } from 'next/router';
 export default function Home() {
+	const router = useRouter();
+
+	// browser side redirect
+	if (typeof window !== 'undefined') {
+		router.push('/courses');
+	}
+
 	return (
 		<>
 			<Head>

@@ -1,4 +1,7 @@
 // sign-in.tsx
+import { useState } from 'react';
+import { useRouter } from 'next/router';
+
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -18,6 +21,8 @@ const schema = yup.object().shape({
 });
 
 const SignInPage = () => {
+	const router = useRouter();
+
 	const {
 		register,
 		handleSubmit,
@@ -26,14 +31,24 @@ const SignInPage = () => {
 
 	const { authStore } = useStore();
 
-	const onSubmit = (data: LoginReqestParam) => {
-		authStore.login(data);
+	const [temp, setTemp] = useState({});
+
+	const onSubmit = async (data: LoginReqestParam) => {
+		try {
+			await authStore.login(data);
+			router.replace('/');
+		} catch (error) {
+			setTemp(error);
+		}
+
+		// TODO:: more convinence
 	};
 
 	return (
 		<Container>
 			<h1>로그인</h1>
 			<section>
+				{JSON.stringify(temp)}
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<MemberInput>
 						<label htmlFor="email">이메일</label>

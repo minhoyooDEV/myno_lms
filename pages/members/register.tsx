@@ -1,10 +1,13 @@
 // register.tsx
+import { useState } from 'react';
+
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
 import MemberInput from '../../components/member/member-input';
 import { Container } from '../../components/base/container';
+import { useStore } from '../../stores';
 
 type Inputs = {
 	email: string;
@@ -29,14 +32,24 @@ const RegisterPage = () => {
 		formState: { errors },
 	} = useForm<Inputs>({ resolver: yupResolver(schema) });
 
-	const onSubmit = (data: Inputs) => {
+	const { authStore } = useStore();
+	const [temp, setTemp] = useState({});
+
+	const onSubmit = async (data: Inputs) => {
 		console.log(data);
+		try {
+			await authStore.signUp(data);
+		} catch (error) {
+			setTemp(error);
+		}
 	};
 
 	return (
 		<Container>
 			<h1>회원가입</h1>
 			<section>
+				{JSON.stringify(temp)}
+
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<MemberInput>
 						<label htmlFor="email">이메일</label>

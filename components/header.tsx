@@ -1,5 +1,8 @@
+import { Observer } from 'mobx-react-lite';
 import Link from 'next/link';
+import { useEffect } from 'react';
 import styled from 'styled-components';
+import { useStore } from '../stores';
 import { Container } from './base/container';
 
 const HeaderWrap = styled.header`
@@ -14,14 +17,27 @@ const HeaderWrap = styled.header`
 
 const HeaderContainer = styled(Container)`
 	display: flex;
+	height: 100%;
 	justify-content: space-between;
 	align-items: center;
 	background-color: inherit;
 	color: ${({ theme }) => theme.colors.white};
 `;
 
+const Row = styled.div`
+	display: flex;
+`;
+
+const Col = styled.div`
+	& + & {
+		margin-left: ${({ theme }) => theme.spacing};
+	}
+`;
+
 interface HeaderProps {}
 const Header = ({}: HeaderProps) => {
+	const { authStore } = useStore();
+
 	return (
 		<HeaderWrap>
 			<HeaderContainer>
@@ -35,10 +51,32 @@ const Header = ({}: HeaderProps) => {
 				</div>
 
 				{/* right */}
-				<div>
-					<div>sign in</div>
-					<div>register</div>
-				</div>
+				<Observer>
+					{() =>
+						authStore.isLoginned ? (
+							<Row>
+								<Col>
+									<span>{authStore.user?.username}님 오늘도 화이팅</span>
+								</Col>
+								<Col>
+									<Link href="/members/my-page">my-page</Link>
+								</Col>
+								<Col>
+									<Link href="/logout">logout</Link>
+								</Col>
+							</Row>
+						) : (
+							<Row>
+								<Col>
+									<Link href="/members/sign-in">sign in</Link>
+								</Col>
+								<Col>
+									<Link href="/members/register">register</Link>
+								</Col>
+							</Row>
+						)
+					}
+				</Observer>
 			</HeaderContainer>
 		</HeaderWrap>
 	);

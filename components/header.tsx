@@ -36,7 +36,9 @@ const Header = ({}: HeaderProps) => {
 
 				{/* right */}
 				<div>
-					<div>sign in</div>
+					<div>
+						<Link href="/members/sign-in">sign in</Link>
+					</div>
 					<div>register</div>
 				</div>
 			</HeaderContainer>

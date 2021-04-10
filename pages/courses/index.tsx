@@ -1,28 +1,33 @@
 // courses/index.tsx
-import { NextPageContext } from 'next';
+import { GetServerSideProps, NextPageContext } from 'next';
 import styled from 'styled-components';
 import { Container } from '../../components/base/container';
 import CourseListItem from '../../components/course/course-list-item';
 import { Course } from '../../model/course';
+import { useStore } from '../../stores';
 import mediaquery from '../../utiles/mediaquery';
-import { CoursesMockResponse } from '../../__mock_data';
-
-interface CoursesProp {
-	data: Course[];
+interface CoursesPageProps {
+	courseStore: {
+		list: Course[];
+	};
 }
+
 const Ul = styled.ul`
 	display: grid;
 	grid-template-columns: 1fr 1fr;
+	grid-gap: 1rem;
 	${mediaquery.md`
 		grid-template-columns: 1fr 1fr 1fr;
 	`}
 `;
 
-const Courses = ({ data }: CoursesProp) => {
+const CoursesPage = (props: CoursesPageProps) => {
+	const courses = props.courseStore.list;
 	return (
 		<Container>
+			<h1>코스 목록</h1>
 			<Ul>
-				{data.map(data => (
+				{courses.map(data => (
 					<CourseListItem key={data.id} data={data}></CourseListItem>
 				))}
 			</Ul>
@@ -30,11 +35,12 @@ const Courses = ({ data }: CoursesProp) => {
 	);
 };
 
-export default Courses;
+export default CoursesPage;
 
-Courses.getInitialProps = async ({ req }: NextPageContext) => {
-	// http://lms-assignment.codestates.com/courses
-
-	const data = CoursesMockResponse;
-	return { data };
+export const getServerSideProps: GetServerSideProps<CoursesPageProps> = async ({ req }) => {
+	const res = await fetch(process.env.API_HOST + '/courses');
+	const courses = await res.json();
+	return {
+		props: { courseStore: { list: courses } },
+	};
 };

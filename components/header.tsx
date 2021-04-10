@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import styled from 'styled-components';
 import { useStore } from '../stores';
 import { Container } from './base/container';
+import { Col, Row } from './base/grid';
 
 const HeaderWrap = styled.header`
 	z-index: ${({ theme }) => theme.zIndex.header};
@@ -22,16 +23,6 @@ const HeaderContainer = styled(Container)`
 	align-items: center;
 	background-color: inherit;
 	color: ${({ theme }) => theme.colors.white};
-`;
-
-const Row = styled.div`
-	display: flex;
-`;
-
-const Col = styled.div`
-	& + & {
-		margin-left: ${({ theme }) => theme.spacing};
-	}
 `;
 
 interface HeaderProps {}

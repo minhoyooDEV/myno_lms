@@ -46,11 +46,9 @@ const createAuthStore = () =>
 
 			const data = await res.json();
 
-console.log(data)
 			if (data.errorCode) {
 				throw data;
 			}
-
 
 			this.user = data.user;
 			this.accessToken = data.accessToken;

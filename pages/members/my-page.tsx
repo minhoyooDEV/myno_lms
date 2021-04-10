@@ -19,8 +19,7 @@ const SimpleText = styled.div`
 
 const MypagePage = ({ user }: any) => {
 	const { authStore } = useStore();
-	const user2 = authStore.user;
-	console.log(user);
+
 	if (!user) {
 		return <div></div>;
 	}
@@ -51,7 +50,6 @@ export default MypagePage;
 export const getServerSideProps = withSession(async ({ res, req }) => {
 	const user = req.session.get('user');
 
-	console.log(user);
 	if (user === undefined) {
 		res.setHeader('location', '/members/sign-in');
 		res.statusCode = 302;

@@ -9,7 +9,8 @@ const basicTheme: BasicTheme = {
 	contentsMaxWith: '1920px',
 
 	sizes: {
-		mobile: 320,
+		minMobile: 320,
+		mobile: 576,
 		tablet: 768,
 		laptop: 1024,
 		tesktop: 2560,

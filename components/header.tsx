@@ -56,10 +56,11 @@ const Header = ({}: HeaderProps) => {
 						authStore.isLoginned ? (
 							<Row>
 								<Col>
-									<span>{authStore.user?.username}님 오늘도 화이팅</span>
-								</Col>
-								<Col>
-									<Link href="/members/my-page">my-page</Link>
+									<Link href="/members/my-page">
+										<a>
+											<span>{authStore.user?.username}님 오늘도 화이팅</span>
+										</a>
+									</Link>
 								</Col>
 								<Col>
 									<Link href="/logout">logout</Link>

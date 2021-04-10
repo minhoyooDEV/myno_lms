@@ -23,13 +23,17 @@ interface CourseListItemProps {
 const CourseListItem = ({ data }: CourseListItemProps) => {
 	return (
 		<Li>
-			<div>
 				<Link href={`/courses/${data.id}`}>
-					<strong>{data.title}</strong>
-				</Link>
+					<a>
+				<div>
+			<div>
+						<strong>{data.title}</strong>
 			</div>
 			<p>{data.description}</p>
 			<img src={data.thumbnailURL} width="100%" />
+			</div>
+					</a>
+				</Link>
 		</Li>
 	);
 };

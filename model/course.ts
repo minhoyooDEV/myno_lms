@@ -17,18 +17,21 @@ interface CourseContents {
 type TCourseStoreState = {
 	data: Map<number, Course>;
 	list: CourseList;
+	contentsListByCourseId: Map<number, CourseContents[]>;
 };
 
 const createCourseStore = () =>
 	makeAutoObservable({
 		data: new Map<number, Course>(),
 		list: [] as CourseList,
+		contentsListByCourseId: new Map<number, CourseContents[]>(),
 
 		hydrate(hydrateData: TCourseStoreState) {
 			if (!hydrateData) return;
 
 			this.data = hydrateData.data;
 			this.list = hydrateData.list;
+			this.contentsListByCourseId = hydrateData.contentsListByCourseId;
 		},
 	});
 

@@ -49,7 +49,7 @@ export const StoreProvider = ({ store, children }: StoreProviderProps) => (
 );
 
 export const useStore = () => {
-	return React.useContext(storeContext) as initializeStoreProps;
+	return React.useContext(storeContext) as TStore;
 };
 
 export const useInitializeStore = (initialStore: initializeStoreProps) => {

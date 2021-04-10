@@ -1,4 +1,5 @@
 import { makeAutoObservable } from 'mobx';
+import { CourseContentsMockResponse } from '../__mock_data';
 
 type SignupReqestParam = {
 	email: string;
@@ -6,7 +7,6 @@ type SignupReqestParam = {
 	username: string;
 	tel: string;
 };
-
 type LoginReqestParam = {
 	email: string;
 	password: string;
@@ -48,7 +48,30 @@ const createAuthStore = () =>
 				headers: { 'Content-Type': 'application/json' },
 			});
 			const data = await res.json();
+
+			this.user = data.user;
+			this.accessToken = data.accessToken;
+
+			localStorage.setItem('accessToken', data.accessToken);
+
 			return data;
+		},
+
+		async me() {
+			const token = localStorage.getItem('accessToken') || '';
+			const res = await fetch(process.env.NEXT_PUBLIC_API_HOST + '/me', {
+				headers: { Authorization: token },
+			});
+
+			const data = await res.json();
+
+			this.user = data.user;
+			this.accessToken = data.accessToken;
+			return data;
+		},
+
+		logout() {
+			localStorage.removeItem('accessToken');
 		},
 
 		hydrate(hydrateData: TAuthStoreState) {
@@ -62,4 +85,4 @@ const createAuthStore = () =>
 type TCreateAuthStore = ReturnType<typeof createAuthStore>;
 
 export { createAuthStore };
-export type { User, TCreateAuthStore, TAuthStoreState };
+export type { User, TCreateAuthStore, TAuthStoreState, SignupReqestParam, LoginReqestParam };

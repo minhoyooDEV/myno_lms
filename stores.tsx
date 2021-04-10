@@ -28,8 +28,8 @@ function initializeStore(initialData: initializeStoreProps) {
 	// If your page has Next.js data fetching methods that use a Mobx store, it will
 	// get hydrated here, check `pages/ssg.js` and `pages/ssr.js` for more details
 	if (initialData) {
-		_store.courseStore.hydrate(initialData.courseStore);
 		_store.authStore.hydrate(initialData.authStore);
+		_store.courseStore.hydrate(initialData.courseStore);
 	}
 	// For SSG and SSR always create a new store
 	if (typeof window === 'undefined') return _store;

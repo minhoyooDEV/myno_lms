@@ -1,6 +1,7 @@
 // sign-in.tsx
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import withSession from '../../lib/session';
 
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -74,3 +75,15 @@ const SignInPage = () => {
 };
 
 export default SignInPage;
+
+export const getServerSideProps = withSession(async ({ res, req }) => {
+	const user = req.session.get('user');
+
+	if (user) {
+		res.setHeader('location', '/');
+		res.statusCode = 302;
+	}
+
+	console.log(user);
+	return { props: {} };
+});

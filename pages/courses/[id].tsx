@@ -1,18 +1,19 @@
 /* eslint-disable react/no-children-prop */
 // courses/[id].tsx
 
+import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { MouseEventHandler, MouseEvent, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import styled from 'styled-components';
+import withSession from '../../lib/session';
 import { CourseDetailContainer } from '../../components/course/course-detail-container';
 import LessonList from '../../components/course/course-lesson-list';
 import LessonListItem from '../../components/course/course-lesson-list-item';
 import { Course, CourseContents } from '../../model/course';
-import { CourseMockResponse, CourseContentsMockResponse } from '../../__mock_data';
 
 interface CoursePageProp {
-	data: {
+	courseStore: {
 		course: Course;
 		courseContents: CourseContents[];
 	};
@@ -22,20 +23,27 @@ const LessonContents = styled.article`
 	flex: 1;
 `;
 
-const CoursePage = ({ data }: CoursePageProp) => {
-	const router = useRouter();
-	const { id } = router.query;
-	const { course, courseContents } = data;
+function CoursePage({ courseStore }: CoursePageProp) {
+	// const router = useRouter();
+
+	if (!courseStore) {
+		return <div></div>;
+	}
+
+	const { course, courseContents } = courseStore;
 
 	const [contentsIndex, setContentsIndex] = useState(0);
 
+	const handleListItem = (idx: number) => {
+		setContentsIndex(idx);
+	};
 	return (
 		<CourseDetailContainer>
 			<div style={{ width: 200 }}>
 				<LessonList>
-					{courseContents.map(({ id, body, courseId, order }) => (
-						<LessonListItem key={id}>
-							<a href="#">
+					{courseContents.map(({ id }, idx) => (
+						<LessonListItem key={id} onClick={() => handleListItem(idx)}>
+							<a>
 								<div>Lesson #{id}</div>
 							</a>
 						</LessonListItem>
@@ -51,18 +59,29 @@ const CoursePage = ({ data }: CoursePageProp) => {
 			</LessonContents>
 		</CourseDetailContainer>
 	);
-};
+}
 
 export default CoursePage;
 
-CoursePage.getInitialProps = async () => {
-	// http://lms-assignment.codestates.com/courses/[id]
-	// http://lms-assignment.codestates.com/courses/[id]/contents
+export const getServerSideProps = withSession(async ({ res, req, params }) => {
+	const user = req.session.get('user');
 
-	const data = {
-		course: CourseMockResponse,
-		courseContents: CourseContentsMockResponse.sort((a, b) => a.order - b.order),
-	};
+	if (user === undefined) {
+		res.setHeader('location', '/members/sign-in');
+		res.statusCode = 302;
+		return { props: {} };
+	}
 
-	return { data };
-};
+	const accessToken = req.session.get('accessToken');
+
+	const responses = await Promise.all([
+		fetch(`${process.env.API_HOST}/courses/${params.id}`),
+		fetch(`${process.env.API_HOST}/courses/${params.id}/contents`, {
+			headers: { Authorization: accessToken },
+		}),
+	]);
+
+	const [course, courseContents] = await Promise.all(responses.map(res => res.json()));
+
+	return { props: { courseStore: { course, courseContents } } };
+});

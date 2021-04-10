@@ -8,6 +8,7 @@ import * as yup from 'yup';
 import MemberInput from '../../components/member/member-input';
 import { Container } from '../../components/base/container';
 import { useStore } from '../../stores';
+import withSession from '../../lib/session';
 
 type Inputs = {
 	email: string;
@@ -85,3 +86,14 @@ const RegisterPage = () => {
 };
 
 export default RegisterPage;
+
+export const getServerSideProps = withSession(async ({ res, req }) => {
+	const user = req.session.get('user');
+
+	if (user) {
+		res.setHeader('location', '/');
+		res.statusCode = 302;
+	}
+
+	return { props: {} };
+});

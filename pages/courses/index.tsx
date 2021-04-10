@@ -3,6 +3,7 @@ import { GetServerSideProps } from 'next';
 import styled from 'styled-components';
 import { Container } from '../../components/base/container';
 import CourseListItem from '../../components/course/course-list-item';
+import withSession from '../../lib/session';
 import { Course } from '../../model/course';
 import mediaquery from '../../utiles/mediaquery';
 interface CoursesPageProps {
@@ -13,8 +14,11 @@ interface CoursesPageProps {
 
 const Ul = styled.ul`
 	display: grid;
-	grid-template-columns: 1fr 1fr;
+	grid-template-columns: 1fr;
 	grid-gap: 1rem;
+	${mediaquery.xs`
+		grid-template-columns: 1fr 1fr;
+	`}
 	${mediaquery.md`
 		grid-template-columns: 1fr 1fr 1fr;
 	`}
@@ -36,10 +40,13 @@ const CoursesPage = (props: CoursesPageProps) => {
 
 export default CoursesPage;
 
-export const getServerSideProps: GetServerSideProps<CoursesPageProps> = async ({ req }) => {
-	const res = await fetch(process.env.API_HOST + '/courses');
-	const courses = await res.json();
-	return {
-		props: { courseStore: { list: courses } },
-	};
-};
+export const getServerSideProps: GetServerSideProps<CoursesPageProps> = withSession(
+	async ({ req }) => {
+		console.log(req.session.get('user'));
+		const res = await fetch(process.env.API_HOST + '/courses');
+		const courses = await res.json();
+		return {
+			props: { courseStore: { list: courses } },
+		};
+	},
+);

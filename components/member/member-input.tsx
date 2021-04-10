@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const FormInput = styled.div`
+const MemberInput = styled.div`
 	margin-top: 1rem;
 	margin-bottom: 1rem;
 	label {
@@ -31,4 +31,4 @@ const FormInput = styled.div`
 	}
 `;
 
-export default FormInput;
+export default MemberInput;

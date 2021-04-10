@@ -22,7 +22,7 @@ const schema = yup.object().shape({
 	tel: yup.string().required(),
 });
 
-const SignInPage = () => {
+const RegisterPage = () => {
 	const {
 		register,
 		handleSubmit,
@@ -71,4 +71,4 @@ const SignInPage = () => {
 	);
 };
 
-export default SignInPage;
+export default RegisterPage;

@@ -1,15 +1,16 @@
 import React, { useMemo } from 'react';
 import { createCourseStore, TCourseStoreState } from './model/course';
-import { useStaticRendering } from 'mobx-react';
+import { enableStaticRendering } from 'mobx-react';
 // https://github.com/vercel/next.js/blob/canary/examples/with-mobx/store.js
 
 const isServer = typeof window === 'undefined';
 // ssr issuese
-useStaticRendering(isServer);
+enableStaticRendering(isServer);
 
 type initializeStoreProps = {
 	courseStore: TCourseStoreState;
 };
+
 const makeStore = () => ({
 	courseStore: createCourseStore(),
 });
@@ -43,10 +44,8 @@ export const StoreProvider = ({ store, children }: StoreProviderProps) => (
 	<storeContext.Provider value={store}>{children}</storeContext.Provider>
 );
 
-interface UseStoreProps {}
-
 export const useStore = () => {
-	return React.useContext(storeContext) as UseStoreProps;
+	return React.useContext(storeContext) as initializeStoreProps;
 };
 
 export const useInitializeStore = (initialStore: initializeStoreProps) => {

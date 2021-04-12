@@ -11,6 +11,8 @@ import { Container } from '../../components/base/container';
 import MemberInput from '../../components/member/member-input';
 import { useStore } from '../../stores';
 import { LoginReqestParam } from '../../model/auth';
+import ServerErrorMessage from '../../components/member/server-error-message';
+import { BasicError } from '../../interface/Error';
 
 type Inputs = {
 	email: string;
@@ -32,39 +34,33 @@ const SignInPage = () => {
 
 	const { authStore } = useStore();
 
-	const [temp, setTemp] = useState({});
+	const [errorMessage, setErrorMessage] = useState('');
 
-	const onSubmit = async (data: LoginReqestParam) => {
+	const onSubmit = async (data: Inputs) => {
 		try {
 			await authStore.login(data);
 			router.replace('/');
-		} catch (error) {
-			setTemp(error);
+		} catch (_error) {
+			const error: BasicError = _error;
+			console.error(error);
+			setErrorMessage(error.errorMessage);
 		}
-
-		// TODO:: more convinence
 	};
 
 	return (
 		<Container>
 			<h1>로그인</h1>
 			<section>
-				{JSON.stringify(temp)}
+				<ServerErrorMessage>{errorMessage}</ServerErrorMessage>
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<MemberInput>
 						<label htmlFor="email">이메일</label>
-						<input defaultValue="user1@gmail.com" {...register('email')} id="email" autoFocus />
+						<input {...register('email')} id="email" autoFocus />
 						{errors.email && <p>{errors.email.message}</p>}
 					</MemberInput>
 					<MemberInput>
 						<label htmlFor="password">비밀번호</label>
-						<input
-							defaultValue="password1"
-							type="password"
-							{...register('password')}
-							id="password"
-							autoFocus
-						/>
+						<input type="password" {...register('password')} id="password" autoFocus />
 						{errors.password && <p>{errors.password.message}</p>}
 					</MemberInput>
 					<button type="submit">버튼</button>
@@ -84,6 +80,5 @@ export const getServerSideProps = withSession(async ({ res, req }) => {
 		res.statusCode = 302;
 	}
 
-	console.log(user);
 	return { props: {} };
 });

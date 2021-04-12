@@ -8,10 +8,6 @@ import { StoreProvider, useInitializeStore } from '../stores';
 import '../styles/globals.css';
 
 function App({ Component, pageProps }: AppProps) {
-	// pageProps.init;
-	// console.log('@@@@ APP @@@@@');
-	// console.log({ pageProps });
-
 	const initialProp = {
 		authStore: pageProps?.authStore,
 		courseStore: pageProps?.courseStore,

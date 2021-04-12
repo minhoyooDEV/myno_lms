@@ -3,7 +3,7 @@ import { LoginReqestParam, LoginResponseParam } from '../../model/auth';
 
 export default withSession(async (req, res) => {
 	const body: LoginReqestParam = await req.body;
-	const url = `${process.env.API_HOST}/login`;
+	const url = `${process.env.API_HOST}/signup`;
 
 	try {
 		const response = await fetch(url, {

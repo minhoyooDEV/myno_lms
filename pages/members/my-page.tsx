@@ -17,8 +17,10 @@ const SimpleText = styled.div`
 	}
 `;
 
-const MypagePage = ({ user }: any) => {
+interface MypagePage {}
+const MypagePage = ({}: MypagePage) => {
 	const { authStore } = useStore();
+	const user = authStore.user;
 
 	if (!user) {
 		return <div></div>;
@@ -30,15 +32,15 @@ const MypagePage = ({ user }: any) => {
 			<section>
 				<SimpleText>
 					<label>email</label>
-					<div>{user!.email}</div>
+					<div>{user.email}</div>
 				</SimpleText>
 				<SimpleText>
 					<label>username</label>
-					<div>{user!.username}</div>
+					<div>{user.username}</div>
 				</SimpleText>
 				<SimpleText>
 					<label>tel</label>
-					<div>{user!.tel}</div>
+					<div>{user.tel}</div>
 				</SimpleText>
 			</section>
 		</Container>

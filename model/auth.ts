@@ -38,7 +38,7 @@ const createAuthStore = () =>
 		accessToken: null as string | null,
 
 		async signUp(body: SignupReqestParam) {
-			const res = await fetch(process.env.NEXT_PUBLIC_API_HOST + '/signup', {
+			const res = await fetch('/api/signup', {
 				method: 'post',
 				body: JSON.stringify(body),
 				headers: { 'Content-Type': 'application/json' },

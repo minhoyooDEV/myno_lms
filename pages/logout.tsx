@@ -18,8 +18,6 @@ export const getServerSideProps = withSession(async ({ res, req }) => {
 	// Get the user's session based on the request
 	const user = req.session.get('user');
 
-	console.log(req.session);
-	console.log(user);
 	if (user) {
 		req.session.destroy();
 	}

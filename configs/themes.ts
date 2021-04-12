@@ -8,13 +8,6 @@ const basicTheme: BasicTheme = {
 	spacing: defaultSpacing,
 	contentsMaxWith: '1920px',
 
-	sizes: {
-		minMobile: 320,
-		mobile: 576,
-		tablet: 768,
-		laptop: 1024,
-		tesktop: 2560,
-	},
 	headerHeight: `3rem`,
 	zIndex: {
 		header: 1000,

@@ -9,12 +9,6 @@ declare module 'styled-components' {
 		contentsMaxWith: string;
 
 		headerHeight: string;
-		sizes: {
-			mobile: number;
-			tablet: number;
-			laptop: number;
-			tesktop: number;
-		};
 		zIndex: {
 			header: 1000;
 		};

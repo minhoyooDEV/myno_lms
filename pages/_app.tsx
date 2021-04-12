@@ -1,13 +1,31 @@
-import type { AppProps /*, AppContext */ } from 'next/app';
+import type { AppProps } from 'next/app';
 import { ThemeProvider } from 'styled-components';
+import { Main } from '../components/base/main';
+import Header from '../components/header';
 import { basicTheme } from '../configs/themes';
+import AuthCheckWrapper from '../components/auth-check-wrapper';
+import { StoreProvider, useInitializeStore } from '../stores';
 import '../styles/globals.css';
 
 function App({ Component, pageProps }: AppProps) {
+	const initialProp = {
+		authStore: pageProps?.authStore,
+		courseStore: pageProps?.courseStore,
+		commentsStore: pageProps?.commentsStore,
+	};
+	const store = useInitializeStore(initialProp);
+
 	return (
-		<ThemeProvider theme={basicTheme}>
-			<Component {...pageProps} />
-		</ThemeProvider>
+		<StoreProvider store={store}>
+			<ThemeProvider theme={basicTheme}>
+				<AuthCheckWrapper>
+					<Header />
+					<Main>
+						<Component {...pageProps} />
+					</Main>
+				</AuthCheckWrapper>
+			</ThemeProvider>
+		</StoreProvider>
 	);
 }
 

@@ -1,11 +1,11 @@
-export default {
+module.exports = {
 	parser: '@typescript-eslint/parser',
 
 	extends: [
 		'plugin:react/recommended',
 		'plugin:@typescript-eslint/recommended',
 		// eslint의 typescript 포매팅 기능을 제거(eslint-config-prettier)
-		'prettier/@typescript-eslint',
+		'prettier',
 		'plugin:prettier/recommended',
 		// eslint - plugin - prettier,
 	],
@@ -16,7 +16,12 @@ export default {
 			jsx: true, // 리액트의 JSX 파싱을 위해서
 		},
 	},
-	rules: {},
+	rules: {
+		// next default load React
+		'react/react-in-jsx-scope': 'off',
+		'@typescript-eslint/no-empty-interface': 'off',
+		'@typescript-eslint/explicit-module-boundary-types': 'off',
+	},
 	settings: {
 		react: {
 			version: 'detect',

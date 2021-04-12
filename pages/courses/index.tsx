@@ -42,7 +42,6 @@ export default CoursesPage;
 
 export const getServerSideProps: GetServerSideProps<CoursesPageProps> = withSession(
 	async ({ req }) => {
-		console.log(req.session.get('user'));
 		const res = await fetch(process.env.API_HOST + '/courses');
 		const courses = await res.json();
 		return {

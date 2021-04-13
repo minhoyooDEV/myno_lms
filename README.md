@@ -1,5 +1,9 @@
 # MYNO-LMS
 
+## Test domain
+
+https://myno-lms-nc0g1mtuh-minhoyoodev.vercel.app/
+
 ## 개발환경
 
 - macos
@@ -33,6 +37,7 @@
 ## Major TODO
 
 - session base authorization
+
   - 현재 session과 localstorage 양쪽에서 처리중
   - custome server setting 필요
 
